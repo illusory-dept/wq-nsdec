@@ -1,24 +1,18 @@
-dir: ".";
-in: dir,"/nscript.dat";
-out: dir,"/exp/ns.txt";
-conv: dir,"/exp/ns-utf8.txt";
+dir: "."
+in_: dir,"/nscript.dat"
+out: dir,"/ns.txt"
+conv: dir,"/ns-utf8.txt"
 
-KEY:132;
-BS:32;
-size: fsize[in;];
-fin: fopen[in;"r";];
-fout: fopen[out;"w";];
-decoded: alloc[size;];
-pos:0;
-chunk: fread[fin;BS;];
+KEY:132;BS:32;size: fsize[in_]
+fin: fopen[in_;"r"];fout: fopen[out;"w"]
+decoded: alloc[size]
+pos:0;chunk: fread[fin;BS]
 W[count chunk>0;
-  N[count chunk; decoded[pos+_n]: bxor[chunk[_n];KEY;];];
-  pos: pos + count chunk;
-  chunk: fread[fin;BS;];
-];
-fwrite[fout;decoded;];
-fclose[fin;];
-fclose[fout;];
+  N[count chunk; decoded[pos+_n]: bxor[chunk[_n];KEY]]
+  pos: pos + count chunk
+  chunk: fread[fin;BS]]
+fwrite[fout;decoded]
+fclose[fin];fclose[fout]
 
-cmd: "iconv -f shift-jis -t utf-8 ",out," > ",conv;
-exec["sh";"-c";cmd;];
+cmd: "iconv -f shift-jis -t utf-8 ",out," > ",conv
+exec["sh";"-c";cmd]
