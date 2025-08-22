@@ -1,0 +1,10 @@
+nsdec:{[dir]KEY:132;BS:32;inpath:dir,"/nscript.dat";outpath:dir,"/nscript.txt"
+  size:fsize inpath;fin:open[inpath;"r"];dec:alloc size;pos:0;chunk:fread[fin;BS]
+  W[not null? chunk;
+    N[count chunk;dec[pos+_n]:bxor[chunk[_n];KEY]];pos:pos+count chunk;chunk:fread[fin;BS]]
+  fwritet[open[outpath;"w"];decode[dec;"sjis"]];fclose fin;fclose fout
+}
+// interactive:
+//nsdec input "Enter the path to the folder that contains nscript.dat:"
+// decrypt nscript.dat in working dir:
+//nsdec "."
